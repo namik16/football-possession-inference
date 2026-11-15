@@ -1,18 +1,16 @@
 
 """
-dead_ball_v5.py
+dead_ball.py
 
-Independent dead-ball inference for V5.
+Independent dead-ball inference.
 
 Inputs:
     output/tracking_ball_graded.parquet
     Smart Tagging XML via starter.load_smart_tagging
 
 Outputs:
-    output/dead_ball_v5_frames.parquet
-    output/dead_ball_v5_intervals.csv
-
-No dependency on V4.
+    output/dead_ball__frames.parquet
+    output/dead_ball_intervals.csv
 """
 
 from pathlib import Path
@@ -201,16 +199,16 @@ def infer_dead_ball():
     OUT.mkdir(parents=True, exist_ok=True)
 
     result.to_parquet(
-        OUT / "dead_ball_v5_frames.parquet",
+        OUT / "dead_ball_frames.parquet",
         index=False
     )
 
     intervals.to_csv(
-        OUT / "dead_ball_v5_intervals.csv",
+        OUT / "dead_ball_intervals.csv",
         index=False
     )
 
-    print("\n--- V5 DEAD-BALL DIAGNOSTICS ---")
+    print("\n--- DEAD-BALL DIAGNOSTICS ---")
     print("Graded frames:", len(result))
     print("Restart candidate intervals:", len(intervals))
     print("Dead-ball frames:", int(result["dead_ball"].sum()))

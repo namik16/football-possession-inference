@@ -1,8 +1,8 @@
 
 """
-possession_v5.py
+possession.py
 
-Independent V5 possession inference.
+Independent possession inference.
 
 Inputs:
     output/tracking_ball_graded.parquet
@@ -10,11 +10,9 @@ Inputs:
     Smart Tagging XML
 
 Outputs:
-    output/possession_v5_frames.parquet
-    output/possession_v5_spells.csv
-    output/possession_v5_submission.csv
-
-No V4 files are read.
+    output/possession_frames.parquet
+    output/possession__spells.csv
+    output/Boston Press.csv
 """
 
 from pathlib import Path
@@ -27,7 +25,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 from games import GAME, GAMES, half_video_blocks
-from dead_ball_v5 import infer_dead_ball
+from dead_ball import infer_dead_ball
 
 OUT = ROOT / "output"
 
@@ -35,7 +33,7 @@ FPS = GAMES[GAME]["fps"]
 PITCH_LENGTH, PITCH_WIDTH = GAMES[GAME]["pitch"]
 BLOCKS = half_video_blocks(GAME)
 
-# Independent V5 engineering parameters.
+# Independent engineering parameters.
 DISTANCE_SCALE_M = 3.5
 EVIDENCE_DECAY = 0.95
 SWITCH_THRESHOLD = 2.0
@@ -301,7 +299,7 @@ def build_spells(predictions):
 
 
 def print_diagnostics(predictions, spells):
-    print("\n--- V5 POSSESSION DIAGNOSTICS ---")
+    print("\n--- POSSESSION DIAGNOSTICS ---")
 
     print("Frames:", len(predictions))
 
@@ -406,12 +404,12 @@ def main():
     )
 
     predictions.to_parquet(
-        OUT / "possession_v5_frames.parquet",
+        OUT / "possession_frames.parquet",
         index=False
     )
 
     spells.to_csv(
-        OUT / "possession_v5_spells.csv",
+        OUT / "possession_spells.csv",
         index=False
     )
 
@@ -436,7 +434,7 @@ def main():
     })
 
     submission.to_csv(
-        OUT / "possession_v5_submission.csv",
+        OUT / "Boston Press.csv",
         index=False
     )
 
@@ -445,7 +443,7 @@ def main():
     )
 
     print(
-        "\nSaved V5 outputs to:",
+        "\nSaved outputs to:",
         OUT
     )
 

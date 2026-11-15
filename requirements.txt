@@ -8,3 +8,4 @@
 # requirements-starter.txt.
 numpy
 pandas
+pyarrow
